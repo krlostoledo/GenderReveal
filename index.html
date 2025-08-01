@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gender Reveal</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 2.5em;
+      color: #333;
+    }
+    #timer {
+      font-size: 3em;
+      margin: 20px 0;
+      color: #555;
+    }
+    #reveal {
+      font-size: 4em;
+      margin-top: 40px;
+      display: none;
+      transition: opacity 1s ease-in-out;
+    }
+    .boy {
+      color: #2196F3;
+    }
+    .girl {
+      color: #E91E63;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Gender Reveal Countdown</h1>
+  <div id="timer">30</div>
+  <div id="reveal"></div>
+
+  <!-- 🎉 Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- 🎵 Sound -->
+  <audio id="cheer-sound" preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2022/03/08/audio_f6c4c7e741.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    let countdown = 30;
+    const timerEl = document.getElementById('timer');
+    const revealEl = document.getElementById('reveal');
+    const soundEl = document.getElementById('cheer-sound');
+
+    const interval = setInterval(() => {
+      countdown--;
+      timerEl.textContent = countdown;
+
+      if (countdown <= 0) {
+        clearInterval(interval);
+        promptReveal();
+      }
+    }, 1000);
+
+    function promptReveal() {
+      const confirmReveal = confirm("Ready to reveal the gender?");
+      if (confirmReveal) {
+        showGender();
+      } else {
+        revealEl.textContent = "Reveal canceled!";
+        revealEl.style.display = 'block';
+      }
+    }
+
+    function showGender() {
+      const gender = Math.random() < 0.5 ? 'boy' : 'girl';
+      revealEl.textContent = gender === 'boy' ? "🎉 It's a Boy! 🎉" : "🎉 It's a Girl! 🎉";
+      revealEl.className = gender;
+      revealEl.style.display = 'block';
+
+      // Play sound
+      soundEl.play();
+
+      // Confetti burst
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      // Additional burst for fun
+      setTimeout(() => {
+        confetti({
+          particleCount: 100,
+          spread: 100,
+          origin: { y: 0.4 }
+        });
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
