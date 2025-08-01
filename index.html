@@ -49,6 +49,23 @@
   </audio>
 
   <script>
+    fetch("https://api.jsonbin.io/v3/b/688cffb27b4b8670d8ab22e0", {
+      headers: {
+        "X-Master-Key": "$2a$10$Fj8/lmZlLZG8wJVAlIKdx.xIu6OjZ36FwfCuoPyrrGZAyv5HACOYy"
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      const jsonData = data.record;  // Your actual data is inside `record`
+      console.log(jsonData);
+         
+    })
+    .catch(err => {
+      console.error("Failed to fetch JSONBin data:", err);
+    });
+</script>
+  
+  <script>
     let countdown = 30;
     const timerEl = document.getElementById('timer');
     const revealEl = document.getElementById('reveal');
