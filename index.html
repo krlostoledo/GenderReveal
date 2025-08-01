@@ -49,6 +49,12 @@
   </audio>
 
   <script>
+    var gender = "boy";
+    let countdown = 30;
+    const timerEl = document.getElementById('timer');
+    const revealEl = document.getElementById('reveal');
+    const soundEl = document.getElementById('cheer-sound');
+    
     fetch("https://api.jsonbin.io/v3/b/688cffb27b4b8670d8ab22e0", {
       headers: {
         "X-Master-Key": "$2a$10$Fj8/lmZlLZG8wJVAlIKdx.xIu6OjZ36FwfCuoPyrrGZAyv5HACOYy"
@@ -58,18 +64,14 @@
     .then(data => {
       const jsonData = data.record;  // Your actual data is inside `record`
       console.log(jsonData);
+      gender = jsonData.gender.toLowerCase();
+      console.log(gender);
          
     })
     .catch(err => {
       console.error("Failed to fetch JSONBin data:", err);
     });
-</script>
-  
-  <script>
-    let countdown = 30;
-    const timerEl = document.getElementById('timer');
-    const revealEl = document.getElementById('reveal');
-    const soundEl = document.getElementById('cheer-sound');
+
 
     const interval = setInterval(() => {
       countdown--;
@@ -77,22 +79,11 @@
 
       if (countdown <= 0) {
         clearInterval(interval);
-        promptReveal();
+       showGender();
       }
     }, 1000);
 
-    function promptReveal() {
-      const confirmReveal = confirm("Ready to reveal the gender?");
-      if (confirmReveal) {
-        showGender();
-      } else {
-        revealEl.textContent = "Reveal canceled!";
-        revealEl.style.display = 'block';
-      }
-    }
-
-    function showGender() {
-      const gender = Math.random() < 0.5 ? 'boy' : 'girl';
+    function showGender() {      
       revealEl.textContent = gender === 'boy' ? "🎉 It's a Boy! 🎉" : "🎉 It's a Girl! 🎉";
       revealEl.className = gender;
       revealEl.style.display = 'block';
@@ -117,6 +108,5 @@
       }, 1000);
     }
   </script>
-
 </body>
 </html>
